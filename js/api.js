@@ -3,12 +3,17 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyJMXP7cTgB3pPolonW3DERVkYZjfb7OyraV_6DWj7clVcgyLMbMOrVxMaOFDE4N8U4Vg/exec";
 
 function callGasApi(action, params, onSuccess, onFailure) {
+  // GASのCORSやPOSTリダイレクト問題を回避するため、フォームデータ形式で送信します
+  var formData = new URLSearchParams();
+  formData.append('action', action);
+  formData.append('params', JSON.stringify(params));
+
   fetch(GAS_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'text/plain;charset=utf-8'
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
     },
-    body: JSON.stringify({ action: action, params: params })
+    body: formData.toString()
   })
   .then(response => response.json())
   .then(result => {
