@@ -1,0 +1,49 @@
+:root {
+    /* --- ライトモード（デフォルト） --- */
+    --primary-color: #8c7b75;
+    --bg-color: #fdfbf7;
+    --card-bg: #ffffff;
+    --text-color: #5d5d5d;
+    --sub-text-color: #999999;
+    --border-color: #e0dcd0;
+    --input-bg: #faf9f6;        
+    --input-bg-focus: #ffffff;  
+    --element-bg: #f8f6f2;      
+    --section-heading-color: #7a6a65;
+    --ccfolia-color: #222222;
+    --toggle-bg: #cccccc;
+    --chip-bg: #ffffff;
+    --shadow-color: rgba(0,0,0,0.05);
+    --modal-overlay: rgba(255,255,255,0.8);
+  }
+
+  /* --- ダークモード定義 --- */
+  [data-theme="dark"] {
+    --primary-color: #7ab6d6;   
+    --bg-color: #121418;        
+    --card-bg: #1e2229;         
+    --text-color: #f0f2f5;      
+    --sub-text-color: #9eaab5;
+    --border-color: #454d59;    
+    --input-bg: #111214;        
+    --input-bg-focus: #000000;
+    --element-bg: #2a3038;      
+    --section-heading-color: #cdd6e0;
+    --ccfolia-color: #566270;
+    --toggle-bg: #353b45;
+    --chip-bg: #2a3038;
+    --shadow-color: rgba(0,0,0,0.6); 
+    --modal-overlay: rgba(0,0,0,0.8);
+  }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    line-height: 1.5;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+  }

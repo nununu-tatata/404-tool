@@ -1,0 +1,136 @@
+/* =========================================
+     レスポンシブ対応
+     ========================================= */
+
+  /* ⓪ 1400px: PC幅狭〜タブレット (カラムが狭くなる領域の表示崩れ対策) */
+  @media screen and (max-width: 1400px) {
+    /* --- 1. 技能補正欄のレイアウト (2段組み) --- */
+    .correction-row {
+      flex-wrap: wrap;
+      gap: 5px;
+      border-bottom: 1px dashed var(--border-color);
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    .correction-num { width: 20px; }
+    
+    .correction-item.item-target {
+      width: calc(100% - 30px);
+      order: 1;
+      justify-content: flex-start;
+      margin-bottom: 4px;
+    }
+    .correction-item.item-target .correction-select { width: 100%; }
+    
+    .correction-item.item-calc {
+      width: 40%;
+      order: 2;
+      justify-content: flex-start;
+      margin-left: 25px;
+    }
+    .correction-item.item-val {
+      width: 45%;
+      order: 3;
+      justify-content: flex-end;
+    }
+    input.correction-input { width: 100%; }
+    .correction-label { font-size: 10px; }
+
+    /* --- 2. カラー入力欄の調整 (折り返し許可) --- */
+    .color-input-row {
+      flex-wrap: wrap; /* 幅が足りない時に折り返す */
+    }
+    .color-text-input {
+      min-width: 100px; /* #RRGGBBが見える幅を確保 */
+      flex-grow: 2;     /* 余白があれば伸びる */
+    }
+    .color-action-btn {
+      flex-grow: 1;     /* ボタンも横幅に合わせて伸びる */
+      white-space: nowrap;
+    }
+  }
+
+  /* ① 960px: タブレット・PC境目 (2列→1列) */
+  @media screen and (max-width: 960px) {
+    .container { grid-template-columns: 1fr; padding: 30px; gap: 30px; margin: 0 auto; max-width: 600px; }
+    .footer-right { text-align: center; }
+    
+    .create-btn, .ccfolia-btn, .tekey-btn { padding: 14px; }
+  }
+
+  /* ② 600px: モバイル標準 (設定グリッド2列→1列 + タップしやすさ調整) */
+  @media screen and (max-width: 600px) {
+    body { padding: 10px; }
+    .container { padding: 15px; border-radius: 0; box-shadow: none; }
+    .settings-row { grid-template-columns: 1fr; }
+    .options-grid { grid-template-columns: 1fr; }
+    .row-group { gap: 10px; }
+    
+    .author-container { flex-direction: column; text-align: center; }
+    .author-info { align-items: center; }
+    .author-support { margin: 15px 10px 0; }
+    
+    .share-menu { right: -10px; }
+    .modal-content { width: 95%; padding: 20px; }
+    .preview-grid { grid-template-columns: 1fr; }
+
+    /* スマホでタップしやすいように入力欄を大きくする */
+    input.mini-input, select.mini-select {
+      height: 40px; padding: 0 8px; font-size: 16px; box-sizing: border-box;
+    }
+    input.mini-input { width: 70px !important; }
+    
+    .option-card > div:not(.option-text) {
+      display: flex; align-items: center; margin-left: auto;
+    }
+  }
+
+  /* ③ 500px: カラープレビュー等の微調整 */
+  @media screen and (max-width: 500px) {
+    .color-input-row { flex-wrap: wrap; }
+    /* ここでも念のため指定 */
+    .color-text-input { flex: 1; min-width: 120px; }
+    .color-action-btn { flex: 1; }
+    .preset-buttons { width: 100%; margin-top: 5px; justify-content: flex-end; flex-wrap: wrap; }
+  }
+
+  /* ④ 480px: 小さめモバイル (レイアウト変更 & ヘッダー調整統合) */
+  @media screen and (max-width: 480px) {
+    .row-group { flex-direction: column; gap: 15px; }
+    .col-2-3, .col-1-3 { width: 100%; }
+    .tekey-input-row { grid-template-columns: 1fr; }
+    
+    h1 { margin-top: 110px !important; font-size: 24px; margin-bottom: -20px; } 
+    .site-description { margin-bottom: 20px !important; }
+
+    .header-controls { top: 15px; left: 15px; }
+    .header-right-area { top: 60px !important; right: 15px; }
+    
+    .preset-btn { padding: 4px 8px; font-size: 9px; }
+    
+    .option-card { flex-wrap: nowrap; }
+    .option-text { padding-right: 10px; min-width: 0; align-items: flex-start; text-align: left; }
+    .option-card > div:not(.option-text), .option-card > label.switch { flex-shrink: 0; margin-left: auto; }
+  }
+
+  /* ⑤ 375px: iPhone SEなど極小画面 (最終調整) */
+  @media screen and (max-width: 375px) {
+    body { padding: 10px; }
+    .container { padding: 15px; gap: 20px; }
+    
+    h1 { font-size: 22px; } 
+    .site-description { font-size: 11px; }
+    
+    .radio-label { padding: 6px 2px; font-size: 10px; }
+    
+    /* 補正欄: 継承しつつ微調整 */
+    .correction-num { width: 100%; text-align: left; margin-bottom: 2px; border-bottom: none; }
+    
+    .round-btn { width: 32px; height: 32px; }
+    .theme-toggle-btn { width: 32px; height: 32px; }
+    .disclaimer-btn { height: 32px; font-size: 10px; }
+    
+    .option-card { flex-wrap: wrap; }
+    .option-text { width: 100%; padding-right: 0; margin-bottom: 5px; }
+    .option-card > div:not(.option-text), .option-card > label.switch { margin-left: auto; }
+  }

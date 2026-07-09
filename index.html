@@ -1,46 +1,580 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
+<html>
+  <head>
+
+    <base target="_top">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XZT12C1NK"></script>
-    <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-
-      gtag('config', 'G-5XZT12C1NK');
-   </script>
+  
     <title>CoCチャパレ＆コマ作成ツール</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
-    
-    <meta property="og:title" content="CoCチャパレ＆コマ作成ツール">
-    <meta property="og:description" content="キャラクター保管所のURLから、Tekey・ココフォリア用のデータを作成！">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
 
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* スクロールバーを消す */
-            background-color: #f5f5f5; /* 読み込み中の背景色 */
-        }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <iframe src="https://script.google.com/macros/s/AKfycbyJMXP7cTgB3pPolonW3DERVkYZjfb7OyraV_6DWj7clVcgyLMbMOrVxMaOFDE4N8U4Vg/exec"
-            allow="clipboard-write">
-        お使いのブラウザはiframeに対応していません。
-    </iframe>
-</body>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/vars.css">   <link rel="stylesheet" href="css/style.css">  <link rel="stylesheet" href="css/responsive.css">
+
+  </head>
+  <body>
+    <div class="container">
+      
+      <div class="header-controls">
+        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="ダークモード切替">
+          <svg viewBox="0 0 24 24" id="themeIcon"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+        </button>
+        <button class="disclaimer-btn" onclick="openModal('disclaimerModal')">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          免責・利用規約等
+        </button>
+      </div>
+
+      <div id="disclaimerModal" class="modal-overlay" onclick="closeModal('disclaimerModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="modal-close-btn" onclick="closeModal('disclaimerModal')">×</button>
+          <div class="modal-title">免責事項・利用規約</div>
+          <div class="modal-body">
+            <ul>
+              <li>本ツールは、制作者が個人の趣味の範囲で開発・公開している非公式ツールです。</li>
+              <li>本ツールの利用によって生じた、いかなる損害・トラブル（データの消失、予期せぬ動作、セッションの遅延等）についても、制作者は一切の責任を負いません。</li>
+              <li>キャラクター保管所様、Tekey様、CCFOLIA様などの関連サイトとは一切関係ありません。各サイトの仕様変更により、予告なく本ツールが利用できなくなる場合があります。</li>
+              <li>本ツールは無料で提供されていますが、動作保証、および不具合修正や機能追加の義務を負うものではありません。</li>
+              <li>予告なくサービスを停止、または仕様を変更する場合があります。</li>
+            </ul>
+            <div class="modal-title">動作環境</div>
+            <ul>
+              <li>
+                推奨環境： PC / Google Chrome
+              </li>
+              <li>
+                確認済み環境： PC (Win・Mac) / スマホ (iOS・Android)　ブラウザ：Chrome / Safari / Edge / Firefox / Opera / Brave
+              </li>
+            </ul>
+            <p style="margin-top: 5px; font-size: 9px; color: var(--sub-text-color); padding: 0 20px; line-height: 1.4;">
+              ※ブラウザのセキュリティ設定や拡張機能により正常に動作しない場合があります。動かない場合は「広告ブロック解除」や「プライベートウィンドウ」をお試しください。
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="creditsModal" class="modal-overlay" onclick="closeModal('creditsModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="modal-close-btn" onclick="closeModal('creditsModal')">×</button>
+          <div class="modal-title">Special Thanks</div>
+          <div class="modal-body">
+            <p>本ツールの作成にあたり、以下のサイト・ツール様を参考に、または利用させていただきました。多大なる感謝を申し上げます。</p>
+            
+            <h4 style="margin: 15px 0 5px; color: var(--primary-color); border-bottom: 1px dashed var(--border-color);">ツール連携・対応</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li>・<a href="https://charasheet.vampire-blood.net/" target="_blank" style="color: var(--text-color);">キャラクター保管所 様</a></li>
+              <li>・<a href="https://tekey.jp/" target="_blank" style="color: var(--text-color);">Tekey 様</a></li>
+              <li>・<a href="https://ccfolia.com/" target="_blank" style="color: var(--text-color);">CCFOLIA (ココフォリア) 様</a></li>
+            </ul>
+
+            <h4 style="margin: 15px 0 5px; color: var(--primary-color); border-bottom: 1px dashed var(--border-color);">リスペクト・参考元</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li>・<a href="http://sakari.host-ed.me/" target="_blank" style="color: var(--text-color);">Sogni d'oro 様</a></li>
+            </ul>
+
+            <h4 style="margin: 15px 0 5px; color: var(--primary-color); border-bottom: 1px dashed var(--border-color);">カラーデータ参照</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li>・<a href="https://www.colordic.org/" target="_blank" style="color: var(--text-color);">原色大辞典 様</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="colorListModal" class="modal-overlay" onclick="closeModal('colorListModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="modal-close-btn" onclick="closeModal('colorListModal')">×</button>
+          <div class="modal-title" id="colorModalTitle">色一覧</div>
+          <div class="modal-body">
+            <div id="colorGrid" class="color-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="authorModal" class="modal-overlay" onclick="closeModal('authorModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="modal-close-btn" onclick="closeModal('authorModal')">×</button>
+          <div class="modal-title">作った人</div>
+          <div class="modal-body">
+            
+            <div class="author-container">
+              <img src="https://drive.google.com/thumbnail?sz=w1000&id=1aXVDSHGr6bvIoyjgPY8lr8PjhZJLaotJ" class="author-icon" alt="ぬこた">
+              
+              <div class="author-info">
+                <div class="author-name-row">
+                  <span class="author-name">ぬこた</span>
+                  <a href="https://x.com/nukonuko_4" target="_blank" class="author-x-btn" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </a>
+                </div>
+                <div class="author-bio">
+                  気ままにCoCテキセメインでTRPG遊んでいます。<br>
+                  不具合報告や要望は上部のお問い合わせボタンまでお気軽にどうぞ。
+                </div>
+              </div>
+            </div>
+
+            <div class="author-support">
+              <p>
+                当ツールを気に入って支援したい富豪・石油王様向けに、<br>
+                <a href="https://booth.pm/wish_list_names/K1NTM3Bx" target="_blank" class="support-link">BOOTHのスキリスト</a>、
+                <a href="https://www.amazon.jp/hz/wishlist/ls/2SYYSJUGAZKIR?ref_=wl_share" target="_blank" class="support-link">Amazonのほしいも</a>
+                を公開しています。<br>その他URLでのギフトも大歓迎です。
+                <span class="support-note">（※ギフトURLはお問い合わせボタンからお送りください。）</span>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right-area">
+        <div class="share-copy-tooltip" id="shareTooltip">リンクをコピーしました</div>
+        
+        <button class="round-btn" onclick="openModal('authorModal')" title="作った人">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </button>
+
+        <a href="https://forms.gle/K2Lkdcw2akgnDvoVA" target="_blank" class="round-btn" title="お問い合わせ">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+
+        <div class="share-wrapper">
+          <button class="round-btn share-main-btn" onclick="toggleShareMenu(event)" title="シェアする">
+            <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+          </button>
+
+          <div id="shareMenu" class="share-menu">
+            <button class="share-item" onclick="shareCopyLink()">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              リンクをコピー
+            </button>
+            
+            <a href="#" class="share-item" onclick="shareToX(); return false;">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              Xでシェア
+            </a>
+
+            <a href="#" class="share-item" onclick="shareToBluesky(); return false;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" style="fill: #0085ff;">
+                <path d="M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.102.218-.379 1.11-1.855 5.444-5.231 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 6.737 0 3.12 0 2.632 0 .186 2.145.955 3.468 1.948"/>
+              </svg>
+              Blueskyでシェア
+            </a>
+
+            <a href="#" class="share-item" onclick="shareToMisskey(); return false;">
+              <svg viewBox="0 0 24 24" style="color:#86b300; fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+              Misskeyでシェア
+            </a>
+
+            <a href="#" class="share-item" onclick="shareToDiscord(); return false;">
+              <svg viewBox="0 0 24 24" style="color:#5865F2; fill:currentColor;">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+              </svg>
+              Discordでシェア
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <h1>CoCチャパレ＆コマ作成ツール</h1>
+      <p class="site-description">
+        キャラクター保管所(CoC6版)のデータから、チャットパレットとコマ用プロフィールを一括作成。<br>
+        Tekeyへの直接送信や、ココフォリア用データの出力、文字色プレビュー機能も搭載。<br>
+        秘匿HOやハウスルールに合わせた柔軟な設定が可能です。<br>
+        <span style="font-size:11px; display:inline-block; margin-top:5px; color:var(--sub-text-color);">
+          ※左上の「免責・利用規約等」をご確認の上ご利用ください。
+        </span>
+      </p>
+      
+      <div class="related-link-area">
+        <a href="https://nununu-tatata.github.io/log-checker/" target="_blank" class="related-tool-link">
+          🎲CoC成長チェックツール ↗
+        </a>
+      </div>
+
+      <div class="left-column">
+        
+        <div>
+          <div class="input-group" style="margin-bottom: 20px;">
+            <div class="section-heading no-border">キャラクターシートのURL</div>
+            <input type="text" id="urlInput" placeholder="ここにURLを入力">
+          </div>
+          
+          <div class="row-group">
+            <div class="input-group col-2-3">
+              <div class="section-heading no-border">ダイス判定式</div>
+              <div class="radio-group">
+                <div class="radio-item"><input type="radio" name="diceCommand" value="CCB" id="diceCCB" checked><label class="radio-label" for="diceCCB" data-tooltip="1～5クリティカル&#10;96～100ファンブル">CCB<=</label></div>
+                <div class="radio-item"><input type="radio" name="diceCommand" value="CC" id="diceCC"><label class="radio-label" for="diceCC" data-tooltip="1クリティカル&#10;100ファンブル">CC<=</label></div>
+                <div class="radio-item"><input type="radio" name="diceCommand" value="1D100" id="dice1D100"><label class="radio-label" for="dice1D100" data-tooltip="クリティカル・ファンブル判定なし">1D100<=</label></div>
+              </div>
+            </div>
+            <div class="input-group col-1-3">
+              <div class="section-heading no-border">能力値参照</div>
+              <div class="radio-group">
+                <div class="radio-item"><input type="radio" name="statRef" value="current" id="statCurrent" checked><label class="radio-label" for="statCurrent" data-tooltip="その他増加分、一時的増減を含めた最終的な値">現在値</label></div>
+                <div class="radio-item"><input type="radio" name="statRef" value="creation" id="statCreation"><label class="radio-label" for="statCreation" data-tooltip="最初にプルダウンで入力した値のみ参照">作成時</label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          
+          <div>
+            <div class="section-heading">
+              <span>チャットパレット設定</span>
+              <div class="preset-buttons">
+                <button id="btn-tekey" class="preset-btn" onclick="applyPreset('tekey')">Tekey向け</button>
+                <button id="btn-ccfolia" class="preset-btn" onclick="applyPreset('ccfolia')">ココフォリア向け</button>
+                <button id="btn-off" class="preset-btn" onclick="applyPreset('off')">すべてOFF</button>
+              </div>
+            </div>
+
+            <div class="options-grid">
+              <div class="option-card"><div class="option-text"><span class="option-title">全技能出力</span><span class="option-desc">初期値も全て表示</span></div><label class="switch"><input type="checkbox" id="outputAllSkills"><span class="slider"></span></label></div>
+              <div class="option-card"><div class="option-text"><span class="option-title">【 】で囲む</span><span class="option-desc">例：CCB&lt;=70 【目星】</span></div><label class="switch"><input type="checkbox" id="addBrackets"><span class="slider"></span></label></div>
+              
+              <div class="option-card"><div class="option-text"><span class="option-title">Tekey用折りたたみ</span><span class="option-desc">###カテゴリー###</span></div><label class="switch"><input type="checkbox" id="useFolding"><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="ONで代入できるように変数に変換、OFFで実数値が入ります。"><div class="option-text"><span class="option-title">変数/実数</span><span class="option-desc">例：{STR}*5, {SAN}</span></div><label class="switch"><input type="checkbox" id="useVariable" checked><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="Tekey向け。チャパレの最下部に能力値の変数一覧を出力します。"><div class="option-text"><span class="option-title">能力値変数</span><span class="option-desc">{STR}=12 等を出力</span></div><label class="switch"><input type="checkbox" id="includeStatVariables"><span class="slider"></span></label></div>
+              
+              <div class="option-card">
+                <div class="option-text"><span class="option-title">倍数ロール</span><span class="option-desc">STR倍数など</span></div>
+                <div style="display:flex; align-items:center;">
+                  <select id="statMultiplierValue" class="mini-select"><option value="0.5">/2</option><option value="1">x1</option><option value="2">x2</option><option value="3">x3</option><option value="4">x4</option><option value="5" selected>x5</option><option value="6">x6</option></select>
+                  <label class="switch"><input type="checkbox" id="includeStatx5" checked><span class="slider"></span></label>
+                </div>
+              </div>
+              
+              <div class="option-card" data-tooltip="CC判定式の場合はRESとなります。"><div class="option-text"><span class="option-title">対抗ロール</span><span class="option-desc">RESB({STR}-対抗値)</span></div><label class="switch"><input type="checkbox" id="includeStatRes"><span class="slider"></span></label></div>
+              
+              <div class="option-card" style="flex-direction:column; align-items:stretch;" data-tooltip="武道を60％以上取得してる場合は&#10;特殊攻撃の項目も出力されます。">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div class="option-text"><span class="option-title">組み合わせロール</span><span class="option-desc">MAキック・武道</span></div>
+                  <label class="switch"><input type="checkbox" id="includeCombination" onchange="toggleMAOption()"><span class="slider"></span></label>
+                </div>
+                
+                <div id="maOptionContainer" class="sub-option-row" style="display:none;">
+                   <span class="sub-option-label">初期値でもMA系技能を出力</span>
+                   <label class="switch mini">
+                     <input type="checkbox" id="forceMACombination">
+                     <span class="slider"></span>
+                   </label>
+                </div>
+              </div>
+              
+              <div class="option-card" style="flex-direction:column; align-items:stretch;" data-tooltip="不定項目はTekey向けです。必要に応じて編集してください。">
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div class="option-text"><span class="option-title">コマンド</span><span class="option-desc">:SAN-、:不定=など</span></div>
+                  <label class="switch"><input type="checkbox" id="includeCommands" onchange="toggleCommandOption()"><span class="slider"></span></label>
+                </div>
+                
+                <div id="commandOptionContainer" class="sub-option-row" style="display:none;">
+                   <span class="sub-option-label">不定計算式も追加する</span>
+                   <label class="switch mini">
+                     <input type="checkbox" id="includeInsanityCalc">
+                     <span class="slider"></span>
+                   </label>
+                </div>
+              </div>
+              
+              <div class="option-card" data-tooltip="Tekey：能力値変数の最後にDBを追加し、ダメージロールにDB変数を追加。&#10;ココフォリア：コマのパラメータにDBの項目を追加。"><div class="option-text"><span class="option-title">ダメージボーナス</span><span class="option-desc">DB変数を定義</span></div><label class="switch"><input type="checkbox" id="includeDB" checked><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="戦闘・武器・防具の欄に名前と成功率とダメージが記入されている場合、戦闘技能のチャパレに追加します。"><div class="option-text"><span class="option-title">武器・防具</span><span class="option-desc">武器の命中・ダメを出力</span></div><label class="switch"><input type="checkbox" id="includeWeaponsPalette" checked><span class="slider"></span></label></div>
+
+              <div class="option-card">
+                <div class="option-text"><span class="option-title">技能値上限</span><span class="option-desc">設定値でカンスト</span></div>
+                <div style="display:flex; align-items:center;"><input type="number" id="skillCapValue" value="100" class="mini-input"><label class="switch"><input type="checkbox" id="useSkillCap" checked><span class="slider"></span></label></div>
+              </div>
+              
+              <div class="option-card">
+                <div class="option-text">
+                  <span class="option-title">シークレットダイス</span>
+                  <span class="option-desc">Sを先頭に追加 (例: SCCB)</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="isSecret"><span class="slider"></span></label>
+              </div>
+              <div class="option-card">
+                <div class="option-text">
+                  <span class="option-title">SANは常に1d100</span>
+                  <span class="option-desc">SANC時は1d100を使用</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="always1d100Sanc"><span class="slider"></span></label>
+              </div>
+            </div>
+
+            <details>
+              <summary>技能値一時補正<span class="summary-sub">（不定・怪我など）</span></summary>
+              <div class="correction-content">
+                <? for (var i = 1; i <= 5; i++) { ?>
+                <div class="correction-row">
+                  <span class="correction-num"><?= i ?>.</span>
+                  <div class="correction-item item-target">
+                    <label class="correction-label">対象:</label>
+                    <select id="correctionTarget<?= i ?>" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
+                  </div>
+                  <div class="correction-item item-calc">
+                    <label class="correction-label">計算:</label>
+                    <select id="correctionOp<?= i ?>" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
+                  </div>
+                  <div class="correction-item item-val">
+                    <label class="correction-label">数値:</label>
+                    <input type="number" id="correctionVal<?= i ?>" class="correction-input" placeholder="0">
+                  </div>
+                </div>
+                <? } ?>
+              </div>
+            </details>
+            
+            <details>
+              <summary>初期値でも出力する技能<span class="summary-sub">（選択）</span></summary>
+              <div style="margin-bottom:5px; font-size:11px; padding: 0 15px; text-align:right;">
+                <a href="#" onclick="toggleSkillFields(true); return false;" style="color:var(--primary-color);">全選択</a> / 
+                <a href="#" onclick="toggleSkillFields(false); return false;" style="color:var(--primary-color);">全解除</a> / 
+                <a href="#" onclick="resetSkillFields(); return false;" style="color:var(--primary-color);">初期</a>
+              </div>
+              <div class="skills-container"><div class="skill-grid" id="skillCheckboxes"></div></div>
+            </details>
+
+          </div>
+
+          <div>
+            <div class="section-heading">プロフィール設定</div>
+            <div class="options-grid">
+              <div class="option-card"><div class="option-text"><span class="option-title">ステータス</span><span class="option-desc">STR/CONなど</span></div><label class="switch"><input type="checkbox" id="includeStatusProfile" checked><span class="slider"></span></label></div>
+              
+              <div class="option-card"><div class="option-text"><span class="option-title">技能一覧</span><span class="option-desc">取得技能リスト</span></div><label class="switch"><input type="checkbox" id="includeSkillListProfile" checked><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="その他メモ欄から『特徴表』『特記』らしき文章を抽出。&#10;記載の仕方によってはうまく抽出できない可能性があります。&#10;必要に応じて編集してください。"><div class="option-text"><span class="option-title">特徴・特記</span><span class="option-desc">プロフ欄に追加</span></div><label class="switch"><input type="checkbox" id="includeTraits" onchange="toggleNormalMode()"><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="名前からその他欄まで&#10;記入があれば出力します。"><div class="option-text"><span class="option-title">武器・防具</span><span class="option-desc">武器データを一覧出力</span></div><label class="switch"><input type="checkbox" id="includeWeaponsProfile" checked onchange="toggleNormalMode()"><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="所持品欄の名称が出力されます。"><div class="option-text"><span class="option-title">持ち物</span><span class="option-desc">所持品リストを出力</span></div><label class="switch"><input type="checkbox" id="includeItems" checked onchange="toggleNormalMode()"><span class="slider"></span></label></div>
+
+              <div class="option-card"><div class="option-text"><span class="option-title">パーソナルデータ</span><span class="option-desc">身長/体重/出身/色</span></div><label class="switch"><input type="checkbox" id="includePersonalData" onchange="toggleNormalMode()"><span class="slider"></span></label></div>
+              
+              <div class="option-card" data-tooltip="探索者のステータスや技能値を隠し、&#10;見た目の情報やその他項目を選択して出力するモードです。"><div class="option-text"><span class="option-title">秘匿用プロフモード</span><span class="option-desc">項目を選んで出力</span></div><label class="switch"><input type="checkbox" id="isSecretProfile" onchange="toggleSecretMode()"><span class="slider"></span></label></div>
+            </div>
+            
+            <details>
+              <summary>秘匿プロフ出力項目<span class="summary-sub">（秘匿モード時）</span></summary>
+              <div style="margin-bottom:5px; font-size:11px; padding: 0 15px; text-align:right;">
+                <a href="#" onclick="toggleSecretFields(true); return false;" style="color:var(--primary-color);">全選択</a> / 
+                <a href="#" onclick="toggleSecretFields(false); return false;" style="color:var(--primary-color);">全解除</a> / 
+                <a href="#" onclick="resetSecretFields(); return false;" style="color:var(--primary-color);">初期</a>
+              </div>
+              <div class="skills-container"><div class="skill-grid" id="secretProfileCheckboxes"></div></div>
+            </details>
+
+            <div class="section-heading" style="margin-top: 20px;">Tekeyコマ送信・カラム変更</div>
+            <details>
+              <summary>Tekeyコマ送信<span class="summary-sub">（Tekey連携用）</span></summary>
+              <div class="tekey-settings">
+                <div class="tekey-input-row">
+                  <div>
+                    <label class="tekey-label">ルームID (room)</label>
+                    <input type="text" id="tekeyRoomId" class="tekey-input" placeholder="ルームID">
+                  </div>
+                  <div>
+                    <label class="tekey-label">パスワード (password)</label>
+                    <input type="text" id="tekeyPassword" class="tekey-input" placeholder="ルームパスワード">
+                  </div>
+                </div>
+                
+                <div class="tekey-column-settings">
+                  <div class="tekey-column-toggle" data-tooltip="KP向けのためPL時は注意！">
+                    <label class="switch">
+                      <input type="checkbox" id="updateColumns" onchange="toggleColumnInput()">
+                      <span class="slider"></span>
+                    </label>
+                    <span class="option-title">ステータス項目(カラム)を変更する</span>
+                  </div>
+                  <div id="tekeyColumnInputArea" class="tekey-column-input-area">
+                    <label class="tekey-label">設定する項目 (半角スペース区切り・末尾に半角の「*」でチェックボックス)</label>
+                    <input type="text" id="tekeyColumnList" class="tekey-input" value="SAN 不定 HP MP" placeholder="HP MP SAN ...">
+                    <p style="font-size:10px; color:#5d5d5d; margin:2px 0;">※送信時、名前より右のステータステーブル項目がこれに書き換わります。</p>
+                    
+                    <button id="sendColumnsBtn" class="tekey-sub-btn" onclick="sendColumnsOnly()" data-tooltip="【！】部屋のカラム設定を上書きします。&#10;既存のキャラクターが持っているHP/MPなどの値はすべてリセット(0)されるためご注意ください。">
+                      ⚙️ カラム設定のみ反映する
+                    </button>
+                  </div>
+                </div>
+
+                <p style="font-size:10px; color:#5d5d5d; margin:10px 0 5px 0;">※入力内容は保存されません。ブラウザを閉じると消えます。</p>
+                
+                <button id="sendTekeyBtn" class="tekey-btn" onclick="sendToTekey()" disabled>
+                  🌐 Tekeyにコマを送信
+                </button>
+              </div>
+            </details>
+
+            <div class="section-heading" style="margin-top: 20px;">チャットカラー・プレビュー</div>
+            <details>
+              <summary>
+                <span class="tooltip-text" data-tooltip="カラーコードを入力すると背景色との相性が確認できます。カラーピッカーや色一覧からも色を選べます。">文字色確認</span>
+                <span class="summary-sub">（背景色との相性チェック）</span>
+              </summary>
+              <div class="color-preview-container">
+                <div class="color-input-area">
+                  <div class="color-input-row">
+                    <input type="color" id="previewColorPicker" value="#000000">
+                    <input type="text" id="previewColorText" class="mini-input color-text-input" value="#000000" placeholder="#000000">
+                    
+                    <button class="color-action-btn" onclick="copyColorCode()" title="カラーコードをコピー">
+                      <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                      コピー
+                    </button>
+                    <button class="color-action-btn" onclick="setRandomColor()" title="ランダムな色を設定">
+                      <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                      ランダム
+                    </button>
+                  </div>
+                  
+                  <div class="color-palette-buttons">
+                    <button class="palette-select-btn" onclick="openColorPalette('web')">Web原色から選ぶ</button>
+                    <button class="palette-select-btn" onclick="openColorPalette('wa')">和色から選ぶ</button>
+                    <button class="palette-select-btn" onclick="openColorPalette('yo')">洋色から選ぶ</button>
+                  </div>
+
+                  <div id="colorNameDisplay" class="color-name-display"></div>
+                </div>
+                
+                <div class="preview-grid">
+                  <div class="preview-box bg-ccfolia" id="previewBox1">
+                    <span class="preview-label">CCFOLIAルーム</span>
+                    <span class="preview-text">サンプルテキスト #2A2A2A</span>
+                  </div>
+                  <div class="preview-box bg-tekey-dark" id="previewBox2">
+                    <span class="preview-label">Tekey(ダーク)</span>
+                    <span class="preview-text">サンプルテキスト #424242</span>
+                  </div>
+                  <div class="preview-box bg-white" id="previewBox3">
+                    <span class="preview-label">Tekey(ライト)<br>CCFOLIAログ</span>
+                    <span class="preview-text">サンプルテキスト #FFFFFF</span>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="right-column">
+        
+        <div>
+          <button onclick="runScript()" class="create-btn">チャットパレットを作成</button>
+          
+          <div id="ccfolia-btn-container">
+            <button id="btn-output-ccfolia" class="ccfolia-btn" onclick="outputCCFolia()" disabled>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M5 20h14v-2H5v2zm0-10h4v6h6v-6h4l-7-7-7 7z"/>
+              </svg>
+              ココフォリアのコマを出力
+            </button>
+          </div>
+          
+          <textarea id="ccfoliaJsonArea" style="display:none;"></textarea>
+        </div>
+
+        <div class="result-wrapper">
+          <label class="result-label" data-tooltip="テキストを編集した場合、&#10;編集後の内容で出力/送信されます。">チャットパレット</label>
+          <button id="copyBtn" class="copy-btn" onclick="copyToClipboard('resultArea', 'copyBtn')">📋 コピー</button>
+          <textarea id="resultArea" placeholder="作成ボタンを押すとここに表示されます"></textarea>
+        </div>
+
+        <div class="result-wrapper">
+          <label class="result-label" data-tooltip="作成後にここに入力された名前で&#10;コマ出力/Tekey送信が行われます。&#10;ふりがな削除等にご利用ください。">コマ名前編集用</label>
+          <input type="text" id="characterNameInput" placeholder="作成ボタンを押すと名前が表示されます">
+        </div>
+
+        <div class="result-wrapper">
+          <label class="result-label" data-tooltip="テキストを編集した場合、&#10;編集後の内容で出力/送信されます。">プロフィール（コマ用）</label>
+          <button id="copyProfileBtn" class="copy-btn" onclick="copyToClipboard('profileArea', 'copyProfileBtn')">📋 コピー</button>
+          <textarea id="profileArea" placeholder="作成ボタンを押すとここに表示されます"></textarea>
+        </div>
+        
+      </div>
+
+      <div class="footer">
+        <div class="footer-center">
+          <p>当ツールは、「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』シリーズの二次創作物です。</p>
+          <p>Call of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.</p>
+          <p>Call of Cthulhu is a registered trademark of Chaosium Inc.</p>
+          <p>PUBLISHED BY KADOKAWA CORPORATION　「クトゥルフ神話TRPG」「新クトゥルフ神話TRPG」</p>
+        </div>
+        <div class="footer-right">
+          <p>
+            最終更新日：
+            <span style="cursor:pointer; text-decoration:underline;" onclick="openModal('changelogModal')" title="更新履歴を見る">
+              2026/05/30
+            </span>
+          </p>
+          <p>
+            <span style="cursor:pointer; text-decoration:underline;" onclick="openModal('creditsModal')">Special Thanks</span>
+             | © 2026 ぬこた
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="js/colors.js"></script>
+    <script src="js/data.js"></script>     <script src="js/settings.js"></script> <script src="js/ui.js"></script>       <script src="js/api.js"></script>      
+    <div id="changelogModal" class="modal-overlay" onclick="closeModal('changelogModal')">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close-btn" onclick="closeModal('changelogModal')">×</button>
+    <div class="modal-title">更新履歴</div>
+    <div class="modal-body">
+      
+      <div class="history-item">
+        <h4 style="margin: 10px 0 5px; color: var(--primary-color); border-bottom: 1px dashed var(--border-color);">
+          2026/05/30 (Ver 1.3)
+        </h4>
+        <ul style="padding-left: 20px; margin: 0;">
+          <li>チャットパレットのSAN値チェックを強制的に 1d100 で行うオプションを追加</li>
+        </ul>
+      </div>
+
+      <div class="history-item">
+        <h4 style="margin: 15px 0 5px; color: var(--sub-text-color); border-bottom: 1px dashed var(--border-color); font-weight:normal;">
+          2026/04/07 (Ver 1.2)
+        </h4>
+        <ul style="padding-left: 20px; margin: 0; color: var(--sub-text-color);">
+          <li>チャットパレットの「コマンド」オプションに、不定計算式を出力するサブオプションを追加</li>
+          <li>プリセット「Tekey向け」適用時に、上記の不定計算式が自動でONになるよう調整</li>
+        </ul>
+      </div>
+
+      <div class="history-item">
+        <h4 style="margin: 15px 0 5px; color: var(--sub-text-color); border-bottom: 1px dashed var(--border-color); font-weight:normal;">
+          2026/01/21 (Ver 1.1)
+        </h4>
+        <ul style="padding-left: 20px; margin: 0; color: var(--sub-text-color);">
+          <li>チャットパレットの「応急手当」の下に、回復量（1d3）を自動出力するよう改善</li>
+          <li>オプション「組み合わせロール」に、未習得でも強制出力するサブオプションを追加</li>
+          <li>MAコンボの出力内容を強化（組み付き対応、技能値の順序修正など）</li>
+        </ul>
+      </div>
+
+      <div class="history-item">
+        <h4 style="margin: 15px 0 5px; color: var(--sub-text-color); border-bottom: 1px dashed var(--border-color); font-weight:normal;">
+          2026/01/16 (Ver 1.0)
+        </h4>
+        <ul style="padding-left: 20px; margin: 0; color: var(--sub-text-color);">
+          <li>CoCチャパレ＆コマ作成ツール 公開</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+  </body>
 </html>
