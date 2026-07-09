@@ -312,23 +312,81 @@
             <details>
               <summary>技能値一時補正<span class="summary-sub">（不定・怪我など）</span></summary>
               <div class="correction-content">
-                <? for (var i = 1; i <= 5; i++) { ?>
                 <div class="correction-row">
-                  <span class="correction-num"><?= i ?>.</span>
+                  <span class="correction-num">1.</span>
                   <div class="correction-item item-target">
                     <label class="correction-label">対象:</label>
-                    <select id="correctionTarget<?= i ?>" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
+                    <select id="correctionTarget1" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
                   </div>
                   <div class="correction-item item-calc">
                     <label class="correction-label">計算:</label>
-                    <select id="correctionOp<?= i ?>" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
+                    <select id="correctionOp1" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
                   </div>
                   <div class="correction-item item-val">
                     <label class="correction-label">数値:</label>
-                    <input type="number" id="correctionVal<?= i ?>" class="correction-input" placeholder="0">
+                    <input type="number" id="correctionVal1" class="correction-input" placeholder="0">
                   </div>
                 </div>
-                <? } ?>
+                <div class="correction-row">
+                  <span class="correction-num">2.</span>
+                  <div class="correction-item item-target">
+                    <label class="correction-label">対象:</label>
+                    <select id="correctionTarget2" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
+                  </div>
+                  <div class="correction-item item-calc">
+                    <label class="correction-label">計算:</label>
+                    <select id="correctionOp2" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
+                  </div>
+                  <div class="correction-item item-val">
+                    <label class="correction-label">数値:</label>
+                    <input type="number" id="correctionVal2" class="correction-input" placeholder="0">
+                  </div>
+                </div>
+                <div class="correction-row">
+                  <span class="correction-num">3.</span>
+                  <div class="correction-item item-target">
+                    <label class="correction-label">対象:</label>
+                    <select id="correctionTarget3" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
+                  </div>
+                  <div class="correction-item item-calc">
+                    <label class="correction-label">計算:</label>
+                    <select id="correctionOp3" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
+                  </div>
+                  <div class="correction-item item-val">
+                    <label class="correction-label">数値:</label>
+                    <input type="number" id="correctionVal3" class="correction-input" placeholder="0">
+                  </div>
+                </div>
+                <div class="correction-row">
+                  <span class="correction-num">4.</span>
+                  <div class="correction-item item-target">
+                    <label class="correction-label">対象:</label>
+                    <select id="correctionTarget4" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
+                  </div>
+                  <div class="correction-item item-calc">
+                    <label class="correction-label">計算:</label>
+                    <select id="correctionOp4" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
+                  </div>
+                  <div class="correction-item item-val">
+                    <label class="correction-label">数値:</label>
+                    <input type="number" id="correctionVal4" class="correction-input" placeholder="0">
+                  </div>
+                </div>
+                <div class="correction-row">
+                  <span class="correction-num">5.</span>
+                  <div class="correction-item item-target">
+                    <label class="correction-label">対象:</label>
+                    <select id="correctionTarget5" class="correction-select"><option value="none">なし</option><option value="all">全て</option><option value="combat">戦闘</option><option value="search">探索</option><option value="action">行動</option><option value="negotiation">交渉</option><option value="knowledge">知識</option></select>
+                  </div>
+                  <div class="correction-item item-calc">
+                    <label class="correction-label">計算:</label>
+                    <select id="correctionOp5" class="correction-select" style="max-width:50px;"><option value="-">-</option><option value="+">+</option><option value="/">/</option><option value="*">*</option></select>
+                  </div>
+                  <div class="correction-item item-val">
+                    <label class="correction-label">数値:</label>
+                    <input type="number" id="correctionVal5" class="correction-input" placeholder="0">
+                  </div>
+                </div>
               </div>
             </details>
             
