@@ -472,7 +472,7 @@
     if (profileSkills.length > 0) {
       skillListString = chunkArray(profileSkills, 4).map(chunk => chunk.join("　")).join('\n');
     }
-    let profileString = generateProfileText(chara, stats, specStats, extractedData, dbValue, statValue, p);
+    let profileString = generateProfileText(chara, stats, specStats, extractedData, statValue, p);
     profileString = profileString.replace("{{SKILL_LIST_PLACEHOLDER}}", skillListString);
 
     // ココフォリア用データ
@@ -509,10 +509,11 @@
   // ==========================================
   // プロフィール生成
   // ==========================================
-  function generateProfileText(chara, stats, specStats, extractedData, dbValue, statValue, p) {
+  function generateProfileText(chara, stats, specStats, extractedData, statValue, p) {
     const extractedTraits = extractedData.traits;
     const extractedTokki = extractedData.tokki;
-    const name = chara.name || "名称未設定";
+    // プロフィールの名前はふりがなを横に並べる (コマ名・Tekey送信名には付けない)
+    const name = (chara.name || "名称未設定") + (chara.nameKana ? `　${chara.nameKana}` : "");
 
     // 武器行 (空の項目は詰める)
     function createWeaponLine(w) {

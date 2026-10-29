@@ -3,7 +3,7 @@
 //
 // chara = {
 //   source, sourceLabel, url,
-//   name, occupation, age, sex, height, weight, birthplace, hairColor, eyeColor, skinColor,
+//   name, nameKana (ふりがな。キャラッシュのみ), occupation, age, sex, height, weight, birthplace, hairColor, eyeColor, skinColor,
 //   memo, traitsText, tokki,
 //   stats: { STR: {cur, init}, ... EDU },
 //   hp: {cur, init}, mp: {cur, init}, idea: {cur, init}, luck: {cur, init}, know: {cur, init},
@@ -389,7 +389,8 @@
     const sanCur = toInt(san.value);
 
     return {
-      name: str(p.name), occupation: str(p.occupation), age: str(p.age && typeof p.age === 'object' ? p.age.value : p.age),
+      name: str(p.name), nameKana: str(p.nameKana).trim(),
+      occupation: str(p.occupation), age: str(p.age && typeof p.age === 'object' ? p.age.value : p.age),
       sex: str(p.gender), height: str(p.height), weight: str(p.weight), birthplace: str(p.origin),
       hairColor: str(p.hairColor), eyeColor: str(p.eyeColor), skinColor: skinField ? str(skinField.value) : "",
       memo: memoTexts.join("\n\n"),
