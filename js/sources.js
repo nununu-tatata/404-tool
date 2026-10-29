@@ -98,13 +98,20 @@
     return san - Math.ceil(san / 5);
   }
 
-  // 文章の中から「身長：180」のような行を探す
-  function findLabeledValue(text, labels) {
-    for (const label of labels) {
-      const m = str(text).match(new RegExp('^[\\s【\\[]*' + label + '[】\\]]*\\s*[：:]\\s*(.+)$', 'm'));
-      if (m) return m[1].trim();
+  // 文章の中から「身長：180」「▽　身長：180」のような行を探す (先に見つかった文章を優先)
+  function findLabeledValue(texts, labels) {
+    for (const text of texts) {
+      for (const label of labels) {
+        const m = str(text).match(new RegExp('^[\\s【\\[▽▼△▲・■□◆◇●○★☆▍|｜-]*' + label + '[】\\]]*\\s*[：:]\\s*(.+)$', 'm'));
+        if (m && m[1].trim()) return m[1].trim();
+      }
     }
     return "";
+  }
+
+  // 「▽　手持ち」のような、持ち物欄の見出し行かどうか
+  function isHeadingItem(name) {
+    return /^[▽▼△▲■□◆◇●○★☆▍【\[]/.test(str(name).trim());
   }
 
   // ==========================================
@@ -305,15 +312,16 @@
       .map(w => ({ name: str(w.name), hit: str(w.value), damage: str(w.damage), range: str(w.range),
         attacks: str(w.attacks), ammo: str(w.ammo), durability: str(w.hp), note: "" }));
 
+    // Charaeno には身長などの欄がないので、「描写」欄とメモ欄から「身長：〇〇」の形の行を探す
     const pd = data.personalData || {};
-    const desc = str(pd.description);
+    const texts = [str(pd.description), str(data.note)];
     const sanCur = toInt(at.san && at.san.value);
 
     return {
       name: str(data.name), occupation: str(data.occupation), age: str(data.age), sex: str(data.sex),
-      height: findLabeledValue(desc, ["身長"]), weight: findLabeledValue(desc, ["体重"]), birthplace: str(data.birthplace),
-      hairColor: findLabeledValue(desc, ["髪の色", "髪色", "髪"]), eyeColor: findLabeledValue(desc, ["瞳の色", "瞳色", "目の色", "瞳"]),
-      skinColor: findLabeledValue(desc, ["肌の色", "肌色", "肌"]),
+      height: findLabeledValue(texts, ["身長"]), weight: findLabeledValue(texts, ["体重"]), birthplace: str(data.birthplace),
+      hairColor: findLabeledValue(texts, ["髪の色", "髪色", "髪"]), eyeColor: findLabeledValue(texts, ["瞳の色", "瞳色", "目の色", "瞳"]),
+      skinColor: findLabeledValue(texts, ["肌の色", "肌色", "肌"]),
       memo: str(data.note), traitsText: "", tokki: "",
       stats: stats,
       hp: same(at.hp), mp: same(at.mp),
@@ -324,7 +332,7 @@
       db: str(at.db),
       skills: skills,
       weapons: weapons,
-      items: safeArray(data.possessions).map(p => str(p && p.name)).filter(n => n)
+      items: safeArray(data.possessions).map(p => str(p && p.name)).filter(n => n && !isHeadingItem(n))
     };
   }
 
@@ -373,7 +381,7 @@
         ammo: str(w.ammo), durability: str(w.durability), note: str(w.note).replace(/\n/g, " ") };
     });
 
-    const items = safeArray(p.belongings).concat(safeArray(c.items)).map(i => str(i && i.name)).filter(n => n);
+    const items = safeArray(p.belongings).concat(safeArray(c.items)).map(i => str(i && i.name)).filter(n => n && !isHeadingItem(n));
     const memoTexts = safeArray(p.memos).concat(safeArray(c.systemMemos)).map(m => str(m && m.body)).filter(t => t);
     if (p.background) memoTexts.push(str(p.background));
     const skinField = safeArray(p.customFields).find(f => f && /肌/.test(str(f.name)));

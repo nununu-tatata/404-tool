@@ -54,7 +54,7 @@
       }
 
       // 3. 別の見出し判定 (記号があっても特徴キーワードが含まれていればスルーしない)
-      if (tLine.match(/^[◆■▼●【\[]/) && !tLine.includes("特徴") && !tLine.includes("特記")) {
+      if (tLine.match(/^[◆◇■□▼▽●○★☆▍【\[]/) && !tLine.includes("特徴") && !tLine.includes("特記")) {
         const containsKeyword = traitKeywords.some(key => tLine.includes(key));
         if (!containsKeyword) {
           isTraitMode = false;
@@ -75,22 +75,24 @@
       }
 
       // 5. モード開始判定
-      if (tLine.match(/^[【\[(（<《■◆▼●・\s]*特記/)) {
+      if (tLine.match(/^[【\[(（<《■□◆◇▼▽●○★☆▍・\s]*(職業)?特記/)) {
         isTraitMode = false;
         isTokkiMode = true;
         linesSinceTokkiHeader = 0;
-        if (tLine.replace(/[【】:：\s]/g, "").length > "特記".length) {
+        // 見出しだけの行 (「▽ 職業特記」など) は入れず、同じ行に本文があるときだけ入れる
+        if (tLine.replace(/[【】\[\]:：\s◆◇■□▼▽●○★☆▍・]/g, "").replace(/^(職業)?特記/, "").length > 0) {
           extractedTokki.push(rawLine);
         }
         wasPrevEmpty = false;
         continue;
       }
 
-      if (tLine.match(/^[【\[(（<《■◆▼●・\s]*特徴/)) {
+      if (tLine.match(/^[【\[(（<《■□◆◇▼▽●○★☆▍・\s]*特徴/)) {
         isTokkiMode = false;
         isTraitMode = true;
         linesSinceTraitHeader = 0;
-        if (tLine.replace(/[◆■▼●【】:：\s]/g, "").length > "特徴".length) {
+        // 見出しだけの行 (「▽ 特徴表」など) は入れず、同じ行に本文があるときだけ入れる
+        if (tLine.replace(/[【】\[\]:：\s◆◇■□▼▽●○★☆▍・]/g, "").replace(/^特徴表?/, "").length > 0) {
           extractedTraits.push(rawLine);
         }
         wasPrevEmpty = false;
@@ -98,9 +100,14 @@
       }
 
       // キーワードによる開始判定
+      // 「2-2 [影が薄い]」「【天才】」「天才：…」のように特徴表の書き方をしている行だけを対象にする
+      // (文章中の「ペット」などで誤って拾わないため)
       if (!isTraitMode && !isTokkiMode) {
         for (const key of traitKeywords) {
-          if (tLine.includes(key)) {
+          const looksLikeTrait = /\d\s*[-－ー]\s*\d/.test(tLine) ||
+            new RegExp('[\\[［「【『《〈<(（]\\s*' + key).test(tLine) ||
+            tLine.replace(/^[◆◇■□▼▽●○★☆▍・\s]+/, "").startsWith(key);
+          if (tLine.includes(key) && looksLikeTrait) {
             isTraitMode = true;
             linesSinceTraitHeader = 0;
             extractedTraits.push(rawLine);
