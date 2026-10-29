@@ -569,3 +569,6 @@
     border-bottom-style: solid; /* ホバー時は実線に */
     transform: translateY(-1px);
   }
+
+  /* URL欄の下の対応サイト案内 */
+  .url-note { margin: 6px 0 0; font-size: 11px; color: var(--sub-text-color); line-height: 1.5; }

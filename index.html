@@ -1,8 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
 
-    <base target="_top">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XZT12C1NK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5XZT12C1NK');
+    </script>
+
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>CoCチャパレ＆コマ作成ツール</title>
@@ -37,7 +46,7 @@
             <ul>
               <li>本ツールは、制作者が個人の趣味の範囲で開発・公開している非公式ツールです。</li>
               <li>本ツールの利用によって生じた、いかなる損害・トラブル（データの消失、予期せぬ動作、セッションの遅延等）についても、制作者は一切の責任を負いません。</li>
-              <li>キャラクター保管所様、Tekey様、CCFOLIA様などの関連サイトとは一切関係ありません。各サイトの仕様変更により、予告なく本ツールが利用できなくなる場合があります。</li>
+              <li>キャラクター保管所様、Charaeno様、キャラッシュ様、Tekey様、CCFOLIA様などの関連サイトとは一切関係ありません。各サイトの仕様変更により、予告なく本ツールが利用できなくなる場合があります。</li>
               <li>本ツールは無料で提供されていますが、動作保証、および不具合修正や機能追加の義務を負うものではありません。</li>
               <li>予告なくサービスを停止、または仕様を変更する場合があります。</li>
             </ul>
@@ -66,6 +75,8 @@
             <h4 style="margin: 15px 0 5px; color: var(--primary-color); border-bottom: 1px dashed var(--border-color);">ツール連携・対応</h4>
             <ul style="list-style: none; padding: 0;">
               <li>・<a href="https://charasheet.vampire-blood.net/" target="_blank" style="color: var(--text-color);">キャラクター保管所 様</a></li>
+              <li>・<a href="https://charaeno.com/" target="_blank" style="color: var(--text-color);">Charaeno 様</a></li>
+              <li>・<a href="https://charash.jp/" target="_blank" style="color: var(--text-color);">キャラッシュ 様</a></li>
               <li>・<a href="https://tekey.jp/" target="_blank" style="color: var(--text-color);">Tekey 様</a></li>
               <li>・<a href="https://ccfolia.com/" target="_blank" style="color: var(--text-color);">CCFOLIA (ココフォリア) 様</a></li>
             </ul>
@@ -100,7 +111,7 @@
           <div class="modal-body">
             
             <div class="author-container">
-              <img src="https://drive.google.com/thumbnail?sz=w1000&id=1aXVDSHGr6bvIoyjgPY8lr8PjhZJLaotJ" class="author-icon" alt="ぬこた">
+              <img src="img/author.png" class="author-icon" alt="ぬこた">
               
               <div class="author-info">
                 <div class="author-name-row">
@@ -111,7 +122,7 @@
                 </div>
                 <div class="author-bio">
                   気ままにCoCテキセメインでTRPG遊んでいます。<br>
-                  不具合報告や要望は上部のお問い合わせボタンまでお気軽にどうぞ。
+                  不具合報告や要望は<a href="https://forms.gle/K2Lkdcw2akgnDvoVA" target="_blank" class="support-link">お問い合わせフォーム</a>からお気軽にどうぞ。
                 </div>
               </div>
             </div>
@@ -181,7 +192,7 @@
 
       <h1>CoCチャパレ＆コマ作成ツール</h1>
       <p class="site-description">
-        キャラクター保管所(CoC6版)のデータから、チャットパレットとコマ用プロフィールを一括作成。<br>
+        キャラクター保管所・Charaeno・キャラッシュ(CoC6版)のデータから、チャットパレットとコマ用プロフィールを一括作成。<br>
         Tekeyへの直接送信や、ココフォリア用データの出力、文字色プレビュー機能も搭載。<br>
         秘匿HOやハウスルールに合わせた柔軟な設定が可能です。<br>
         <span style="font-size:11px; display:inline-block; margin-top:5px; color:var(--sub-text-color);">
@@ -201,6 +212,7 @@
           <div class="input-group" style="margin-bottom: 20px;">
             <div class="section-heading no-border">キャラクターシートのURL</div>
             <input type="text" id="urlInput" placeholder="ここにURLを入力">
+            <p class="url-note">対応サイト：キャラクター保管所／Charaeno／キャラッシュ（いずれも6版・公開または限定公開のキャラシ）</p>
           </div>
           
           <div class="row-group">
@@ -572,7 +584,7 @@
           <p>
             最終更新日：
             <span style="cursor:pointer; text-decoration:underline;" onclick="openModal('changelogModal')" title="更新履歴を見る">
-              2026/05/30
+              2026/10/29
             </span>
           </p>
           <p>
@@ -585,7 +597,8 @@
     </div>
 
     <script src="js/colors.js"></script>
-    <script src="js/data.js"></script>     <script src="js/settings.js"></script> <script src="js/ui.js"></script>       <script src="js/api.js"></script>      
+    <script src="js/data.js"></script>     <script src="js/settings.js"></script> <script src="js/ui.js"></script>
+    <script src="js/sources.js"></script>  <script src="js/generator.js"></script> <script src="js/api.js"></script>
     <div id="changelogModal" class="modal-overlay" onclick="closeModal('changelogModal')">
   <div class="modal-content" onclick="event.stopPropagation()">
     <button class="modal-close-btn" onclick="closeModal('changelogModal')">×</button>
@@ -594,9 +607,26 @@
       
       <div class="history-item">
         <h4 style="margin: 10px 0 5px; color: var(--primary-color); border-bottom: 1px dashed var(--border-color);">
-          2026/05/30 (Ver 1.3)
+          2026/10/29 (Ver 1.4)
         </h4>
         <ul style="padding-left: 20px; margin: 0;">
+          <li>Charaeno・キャラッシュ（6版）のキャラシURLに対応</li>
+          <li>チャットパレットの作成をページ内で行うようにし、作成を高速化</li>
+          <li>持ち物が1個だけのキャラで、持ち物が「なし」になる不具合を修正</li>
+          <li>シークレットダイスON時に、応急手当の回復値にもSが付くよう修正</li>
+          <li>URLの末尾に「/」などが付いていても読み込めるよう修正</li>
+          <li>非公開のキャラシや6版以外のキャラシを読み込んだときに、分かりやすいメッセージを出すよう改善</li>
+          <li>追加技能が1つだけのとき、技能名が正しく出ないことがある不具合を修正</li>
+          <li>プロフィールの職業が空欄になることがある不具合を修正</li>
+          <li>ココフォリアのHP・MPの最大値を、成長などを含めた今の値にするよう修正</li>
+        </ul>
+      </div>
+
+      <div class="history-item">
+        <h4 style="margin: 15px 0 5px; color: var(--sub-text-color); border-bottom: 1px dashed var(--border-color); font-weight:normal;">
+          2026/05/30 (Ver 1.3)
+        </h4>
+        <ul style="padding-left: 20px; margin: 0; color: var(--sub-text-color);">
           <li>チャットパレットのSAN値チェックを強制的に 1d100 で行うオプションを追加</li>
         </ul>
       </div>
